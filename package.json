@@ -1,0 +1,79 @@
+{
+  "bin": {
+    "tac-transaction-tracker": "dist/cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/suhailkakar/tac-transaction-tracker/issues"
+  },
+  "description": "",
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.0",
+    "@evilmartians/lefthook": "^1.9.0",
+    "@tstv/eslint-config": "^3.2.4",
+    "@tstv/tsconfig-common": "^3.7.0",
+    "@types/node": "^22.5.1",
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "@vitest/coverage-v8": "^2.0.5",
+    "cross-env": "^7.0.3",
+    "dependency-cruiser": "^16.9.0",
+    "eslint": "^9.19.0",
+    "generate-changelog": "^1.8.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typedoc": "^0.27.2",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.test.*"
+  ],
+  "homepage": "https://www.npmjs.com/package/tac-transaction-tracker",
+  "keywords": [],
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "name": "tac-transaction-tracker",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suhailkakar/tac-transaction-tracker.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "check": "npm run check:format -- --list-different && npm run check:lint",
+    "check:format": "prettier --ignore-path .gitignore --log-level error .",
+    "check:lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx --no-error-on-unmatched-pattern .",
+    "clean": "rimraf coverage dist docs",
+    "commit": "npm run fix && git commit -am \"chore: Generated release files\"",
+    "deploy": "exit 0",
+    "dev": "tsc --noEmit && node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ./src/index.ts",
+    "dist": "npm run clean && npm run build && attw --pack . --ignore-rules cjs-resolves-to-esm",
+    "docs": "npm run docs:build",
+    "docs:build": "typedoc src/index.ts",
+    "fix": "npm run fix:format && npm run fix:lint",
+    "fix:format": "npm run check:format -- --write",
+    "fix:lint": "npm run check:lint -- --fix --quiet",
+    "postversion": "git push origin && git push origin --tags && npm publish --access public && git reset --hard",
+    "preversion": "git checkout main && git pull && npm install && npm run test && npm run dist",
+    "release:major": "generate-changelog -M -x \"chore,test\" && npm run docs && npm run commit && npm version major",
+    "release:minor": "generate-changelog -m -x \"chore,test\" && npm run docs && npm run commit && npm version minor",
+    "release:patch": "generate-changelog -p -x \"chore,test\" && npm run docs && npm run commit && npm version patch",
+    "release:revert": "npm unpublish tac-transaction-tracker",
+    "start": "tsc --noEmit && node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ./src/index.ts",
+    "test": "npm run test:types && npm run test:imports && npm run test:unit:coverage",
+    "test:imports": "depcruise src",
+    "test:types": "tsc --project tsconfig.check.json",
+    "test:unit": "vitest run --passWithNoTests",
+    "test:unit:coverage": "npm run test:unit -- --coverage"
+  },
+  "type": "module",
+  "version": "0.0.0",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "envalid": "^8.0.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "tac-sdk": "^0.3.6-rc-5",
+    "winston": "^3.17.0"
+  }
+}
